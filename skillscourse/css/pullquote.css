@@ -1,0 +1,27 @@
+#pull-quote {font-family:'OpenSansRegular',Arial,sans-serif;}
+
+#pull-quote .page-curl{background: #FFFFFF;background: -moz-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);background: -ms-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);	background: -webkit-linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);background: linear-gradient(0deg, #F5F5F5 0%, #FFF 25%, #FFF 75%, #F5F5F5 100%);border: 1px solid #777777;-moz-border-radius: 6px 6px 6px 6px;-webkit-border-radius: 6px 6px 6px 6px;border-radius: 6px 6px 6px 6px;-moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);-webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);margin: 15px auto;padding: 15px;position: relative;width: 600px;}
+
+#pull-quote .page-curl:before,#pull-quote .page-curl:after {background: none;bottom: 12px;-moz-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);-webkit-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);content: "";height: 10px;	left: 12px;position: absolute;width: 40%;z-index: -1;-moz-transform: skew(-4deg) rotate(-4deg);	-webkit-transform: skew(-4deg) rotate(-4deg);transform: skew(-4deg) rotate(-4deg);}
+
+#pull-quote .page-curl:after {-moz-transform: skew(4deg) rotate(4deg);-webkit-transform: skew(4deg) rotate(4deg);transform: skew(4deg) rotate(4deg);	left: auto;right: 12px;}
+
+#pull-quote .shadow-bottom:before,#pull-quote .shadow-bottom:after {top: auto;bottom: 12px;-moz-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);-webkit-box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);box-shadow: 0 10px 12px rgba(0, 0, 0, 0.5);}
+#pull-quote h1 {margin:  0 auto;}
+
+#pull-quote img {margin:2em 0 0 20px;float:right;display: block;position:relative;}
+
+#pull-quote .firstcharacter { float: left; color: #903; font-size: 4em; line-height: 0.8em; padding-top: 6px; padding-right: 8px; padding-left: 3px; }
+
+#pull-quote p {font-size: 1.2em; line-height: 1.4em;text-align: justify;position:relative;}
+
+#pull-quote ul {margin:  2px auto;}
+
+#pull-quote li {font-size: 1.2em;padding-bottom:.6em;}
+
+#pull-quote .clear{clear:both;}
+
+#pull-quote .cite{line-height: .8; font-size: .6em;font-style: italic;float: right;}
+#pull-quote .page-curl{width: 656px;}
+#pull-quote a {border-radius: 9px;border: 1px solid;  margin: 20px auto;padding: 5px 10px;display: block; text-align: center; text-decoration: none; color:black;}
+#pull-quote a:hover, #pull-quote a:focus {background-color: #FFF2DB;}

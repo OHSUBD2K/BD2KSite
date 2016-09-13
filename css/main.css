@@ -208,6 +208,14 @@ ul{
 	list-style: none;
 }
 
+.section_header{
+    display: block;
+    background-color: #FFD653;
+    padding: 1em;
+    margin: 10px 0;
+    border: 1px solid #939393;
+}
+
 .topicArea .header h1, .topicArea .parts h2, #mapping header h1{
     line-height: 1.2;
     text-transform: capitalize;
@@ -542,7 +550,7 @@ input[type="checkbox"]:checked{
         padding: 20px 2%;
         margin-bottom: 0;
         border-radius: 10px 10px 0 0;
-        min-height: 2.8em;
+        /*min-height: 2.8em;*/
     }
 
     nav li:first-child a {
@@ -628,7 +636,7 @@ input[type="checkbox"]:checked{
     nav {
         float: right;
         width: 100%;
-        max-height: 1.5em;
+        /*max-height: 1.5em;*/
     }
     nav a {
         height: 100%;

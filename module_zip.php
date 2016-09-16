@@ -1,5 +1,7 @@
 <?php
-
+date_default_timezone_set('UTC');
+ob_implicit_flush(true);
+ob_end_flush();
 if (isset($_GET['mod'])){
     $mod = $_GET['mod'];
 
@@ -34,6 +36,7 @@ if (isset($_GET['mod'])){
                 //echo "<br/>count of valid files : ".count($valid_files)."<br/>";
                 if(count($valid_files) > 0){
                  //echo "<h1>Build the ZIP</h1>";
+                    chmod('zips', 0777);
                     $zip = new ZipArchive();
                     $zip_name = (string) ''.$mod.'_'.date('Y-m-d-H-i-s').'.zip';
                     //echo "<br/>name of ZIP file : ".$zip_name ."<br/>";
@@ -64,6 +67,10 @@ if (isset($_GET['mod'])){
                         readfile('zips/'.$zip_name);
                 
                         unlink('zips/'.$zip_name);
+                        if( chmod('zips', 0777) ) {
+                               
+                                chmod('zips', 0755);
+                            }
                         exit();
                     }
 

@@ -16,9 +16,9 @@ $(function () {
 		$dlLocation,
 		ipinfo={};
 	//get ip information from visitors
-	$.getJSON('http://ipinfo.io', function(data){
-		ipinfo = data;
-		});
+	//$.getJSON('http://ipinfo.io', function(data){
+	//	ipinfo = data;
+	//	});
 	//modal function
 	var modal = (function(){
 				var method = {};			
@@ -243,75 +243,76 @@ $(function () {
 							var $newForm = $('<div>')
 							$newForm.html(data);
 							modal.open({content : $newForm});
-							$('input[type="submit"]', '#oer_usage').on('click.sendInfo',function(e){
-								e.preventDefault();
-								$('#oer_usage').find('input[type="text"]').each(function(e){
-									console.log($(this).attr('name'),$(this).val().trim())
-									})
-								console.log(validateEmail($('#userEmail', '#oer_usage').val()));
-								if ($('#userName', '#oer_usage').val().trim() && $('#userPosition', '#oer_usage').val().trim() && validateEmail($('#userEmail', '#oer_usage').val().trim())) {
-									//code
-									
-									var serializedData = $('#oer_usage').serialize();
-									console.log(serializedData);
-									
-									$.ajax({
-							            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
-							            type: "post",
-							            data: serializedData+"&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
-										success: function(data){
-											document.cookie = "survey=true";
-											closeModal(e);
-											window.location=$dlLocation;
-										}
-								   });
-								}else{
-									if ($('#userName', '#oer_usage').val()=='') {
-										$('#userName', '#oer_usage').addClass('giveanswer')
-									}else{
-										$('#userName', '#oer_usage').removeClass('giveanswer')
-									}
-									if ($('#userPosition', '#oer_usage').val()=='') {
-										$('#userPosition', '#oer_usage').addClass('giveanswer')
-									}else{
-										$('#userPosition', '#oer_usage').removeClass('giveanswer')
-									}
-									if (!validateEmail($('#userEmail', '#oer_usage').val()) || $('#userEmail', '#oer_usage').val()=='') {
-										$('#userEmail', '#oer_usage').addClass('giveanswer')
-									}else{
-										$('#userEmail', '#oer_usage').removeClass('giveanswer')
-									}
-								}
+							//$('input[type="submit"]', '#oer_usage').on('click.sendInfo',function(e){
+							//	e.preventDefault();
+							//	closeModal(e);
+							//	window.location=$dlLocation;
+							//	$('#oer_usage').find('input[type="text"]').each(function(e){
+							//		console.log($(this).attr('name'),$(this).val().trim())
+							//		})
+							//	console.log(validateEmail($('#userEmail', '#oer_usage').val()));
+							//	if ($('#userName', '#oer_usage').val().trim() && $('#userPosition', '#oer_usage').val().trim() && validateEmail($('#userEmail', '#oer_usage').val().trim())) {
+							//		//code
+							//		
+							//		var serializedData = $('#oer_usage').serialize();
+							//		console.log(serializedData);
+							//		
+							//		$.ajax({
+							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
+							//            type: "post",
+							//            data: serializedData+"&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
+							//			success: function(data){
+							//				document.cookie = "survey=true";
+							//				
+							//			}
+							//	   });
+								//}else{
+								//	if ($('#userName', '#oer_usage').val()=='') {
+								//		$('#userName', '#oer_usage').addClass('giveanswer')
+								//	}else{
+								//		$('#userName', '#oer_usage').removeClass('giveanswer')
+								//	}
+								//	if ($('#userPosition', '#oer_usage').val()=='') {
+								//		$('#userPosition', '#oer_usage').addClass('giveanswer')
+								//	}else{
+								//		$('#userPosition', '#oer_usage').removeClass('giveanswer')
+								//	}
+								//	if (!validateEmail($('#userEmail', '#oer_usage').val()) || $('#userEmail', '#oer_usage').val()=='') {
+								//		$('#userEmail', '#oer_usage').addClass('giveanswer')
+								//	}else{
+								//		$('#userEmail', '#oer_usage').removeClass('giveanswer')
+								//	}
+								//}
 								
-							})
+							//})
 							$('.signupButton', '#oer_usage').on('click.dontsendInfo','a',function(e){
 									e.preventDefault();
-									//closeModal(e);
-									//window.location=$dlLocation;
-									$.ajax({
-							            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
-							            type: "post",
-							            data: "userName=directFullModuleDownload&userEmail=noneGiven&userPosition=noneGiven&userSurvey=no&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
-										success: function(data){
-											closeModal(e);
-											window.location=$dlLocation;
-										}
-								});
+									closeModal(e);
+									window.location=$dlLocation;
+							//		$.ajax({
+							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
+							//            type: "post",
+							//            data: "userName=directFullModuleDownload&userEmail=noneGiven&userPosition=noneGiven&userSurvey=no&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
+							//			success: function(data){
+							//				closeModal(e);
+							//				window.location=$dlLocation;
+							//			}
+							//	});
 									
 							});
 							
-							$('input[type="checkbox"]', '#oer_usage').on('click.surveyAnswer',function(e){
-								console.log($(this).is(':checked'));
-								if ($(this).is(':checked'))
-								{
-                                    //code
-									$('#userInfo').slideDown(550);
-									$('input[type="submit"]', '#oer_usage').fadeIn(500);
-                                }else{
-									$('#userInfo').slideUp(550);
-									$('input[type="submit"]', '#oer_usage').fadeOut(500);
-								}
-								})
+//							$('input[type="checkbox"]', '#oer_usage').on('click.surveyAnswer',function(e){
+//								console.log($(this).is(':checked'));
+//								if ($(this).is(':checked'))
+//								{
+//                                    //code
+//									$('#userInfo').slideDown(550);
+//									$('input[type="submit"]', '#oer_usage').fadeIn(500);
+//                                }else{
+//									$('#userInfo').slideUp(550);
+//									$('input[type="submit"]', '#oer_usage').fadeOut(500);
+//								}
+//								})
 							
 						}
 			});

@@ -1,4 +1,7 @@
 <?php
+date_default_timezone_set('UTC');
+ob_implicit_flush(true);
+ob_end_flush();
 if(isset($_POST)&&count($_POST) > 0)
 {
 	$files = array();

@@ -246,8 +246,12 @@ ul{
 }
 
 .topicTitle {
-	display: block;
-	font-size: 1.3em;
+	display: inline-block;
+    font-size: 1.3em;
+    min-height: 26px;
+    position: relative;
+    margin: 5px 5px 5px 5px;
+    
 }
 
 .topicTitle a, aside a, .main-page a, .team a, #mapping .topicDescription ul li a{
@@ -271,13 +275,13 @@ ul{
 }
 
 .topicID{
-	display: inline-block;
-	position: relative;
-	vertical-align: top;
-	float: left;
-	margin: 5px 0 5px 10px;
-	font-style: italic;
-	min-height: 26px
+    display: inline-block;
+    position: relative;
+    /* vertical-align: top; */
+    /* float: left; */
+    margin: 5px 5px 5px 10px;
+    font-style: italic;
+    min-height: 26px;
 }
 
 

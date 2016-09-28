@@ -2,6 +2,7 @@ $(function () {
 	//setting up the bg color for the lists of topics
 	$( '.ready .listoftopics ul li:even' ).addClass('oddList');
 	$( '.stillDev .listoftopics ul li:even' ).addClass('oddList');
+	$('.content_mapping ul li:even').addClass('oddList');
 	//basic variables
 	var $clickedTopic,$activeTopic, $fileSize, $currentTopic;
 	//variables to reuse

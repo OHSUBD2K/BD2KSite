@@ -261,13 +261,13 @@ ul{
     text-transform: capitalize;
 }
 
-.topic_details ul li a, .topic_info ul li a{
+.topic_details ul li a, .topic_info ul li a, #mapping header ul li a{
    text-decoration: none;
     color: black;
     cursor: pointer;
 }
 
-.topicTitle a:hover, .topicTitle a:focus,  aside a:focus,  aside a:hover, .main-page a:focus, .main-page a:hover, .team a:focus, .team a:hover, #mapping .topicDescription ul li a:focus, #mapping .topicDescription ul li a:hover, .topic_details ul li a:hover, .topic_details ul li a:focus, .topic_info ul li a:hover, .topic_info ul li a:focus{
+.topicTitle a:hover, .topicTitle a:focus,  aside a:focus,  aside a:hover, .main-page a:focus, .main-page a:hover, .team a:focus, .team a:hover, #mapping .topicDescription ul li a:focus, #mapping .topicDescription ul li a:hover, .topic_details ul li a:hover, .topic_details ul li a:focus, .topic_info ul li a:hover, .topic_info ul li a:focus, #mapping header ul li a:focus{
     background-color: #323558;
     color: white;
     text-decoration: none;

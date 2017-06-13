@@ -69,37 +69,39 @@ $(function () {
 				
 				return method;
 			}());
-	function fileSize() {
-			$.ajax({
-						url: 'module_size.php',
-						type: "GET",
-						dataType: "JSON",
-						success: function (data) {
-							$fileSize = data;
-						}
-			})
-		}
-	fileSize();
+	//function fileSize() {
+	//		$.ajax({
+	//					url: 'module_size.php',
+	//					type: "GET",
+	//					dataType: "JSON",
+	//					success: function (data) {
+	//						$fileSize = data;
+	//					}
+	//		})
+	//	}
+	//fileSize();
 	//function for email validation
-	function validateEmail($email) {
-		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		return emailReg.test( $email );
+	function validatehtml($htmlPage) {
+		var emailReg = /(BDK)\d+/;
+		var match = emailReg.exec($htmlPage);
+
+		return match[0]+'.html';
 	  }
 	//function for the getting the various cookie data used for the site
-	function surveyCookie(){
-		str = document.cookie.split('; ');
-		var result = {};
-		for (var i = 0; i < str.length; i++) {
-			var cur = str[i].split('=');
-			result[cur[0]] = cur[1];
-		}
-		if (result['survey']==='true') {
-            //code
-			return true;
-        }else{
-			return false;
-		}
-	}
+//	function surveyCookie(){
+//		str = document.cookie.split('; ');
+//		var result = {};
+//		for (var i = 0; i < str.length; i++) {
+//			var cur = str[i].split('=');
+//			result[cur[0]] = cur[1];
+//		}
+//		if (result['survey']==='true') {
+//            //code
+//			return true;
+//        }else{
+//			return false;
+//		}
+//	}
 	// setting up the clean-up of the displayed topic
 	//adding the functioning for the clicking of the "viewing the topic"
 	$('.topicDescription', '.ready').on('click.mainList','a', function(e){
@@ -123,25 +125,25 @@ $(function () {
 	function buildInfo($placement) {
 		var $this = $placement;
 			//console.log("starting the build");
-			var $location = $this.attr('href');
+			var $location = validatehtml($this.attr('href'));
 			var $parent = $this.parent().parent().parent();
 			
 			var $topicID = $location.match(/([BDK])\w+/g)[0];
 			$currentTopic = $topicID;
 			console.log($topicID);
-			var $sizeInsert;
+			//var $sizeInsert;
 			//fileSize($topicID);
 			
-			jQuery.each($fileSize, function (k,v){
-				if (k==$topicID) {
-					//code
-					$sizeInsert = '<span class="filesize">('+v+')</span>';
-					if (v.match(/GB/g)) {
-						//code
-						$sizeInsert = '<span class="filesize sizeWarning">('+v+')</span>';
-					}
-				}
-			})
+			//jQuery.each($fileSize, function (k,v){
+			//	if (k==$topicID) {
+			//		//code
+			//		$sizeInsert = '<span class="filesize">('+v+')</span>';
+			//		if (v.match(/GB/g)) {
+			//			//code
+			//			$sizeInsert = '<span class="filesize sizeWarning">('+v+')</span>';
+			//		}
+			//	}
+			//})
 			$.ajax({
 					url: $location,
 					type: "get",
@@ -154,30 +156,30 @@ $(function () {
 						div.html(data);
 						// find the main div for the module
 						//console.log("adding the buttons");
-						var topicButtons = $('<div class="viewButton"><a href="'+$topicID+'.html" target="_BLANK">View Module Content</a></div></div><div class="downloadButton"><a href="module_zip.php?mod='+$topicID+'">Download Entire Module '+$sizeInsert+'</a></div><div class="seClear">');
+						var topicButtons = $(/*<div class="viewButton"><a href="'+$topicID+'.html" target="_BLANK">View Module Content</a></div></div><div class="downloadButton"><a href="module_zip.php?mod='+$topicID+'">Download Entire Module '+$sizeInsert+'</a></div>*/'<div class="seClear">');
 						//console.log("adding the topic info");
 						var $contentAreaStart =$topicID+' - '+div.find('div.main div.topicArea section.header h1').text();
 						var $contentArea = div.find('div.main div.topicArea section.header div.topic_info').append(topicButtons).prepend('<h2>'+$contentAreaStart+'</h2>');
 
 						modal.open({content : $contentArea, top : $parent.offset().top, width : (.85*($(window).attr('screen').width))});
 						//$('html, body').animate({ scrollTop: $parent.offset().top }, { duration: 'slow', easing: 'swing'});($(window).attr('screen').height/6)
-						$contentArea.find('.downloadButton').on('click.downloadWhole', 'a',function(e){
-									e.preventDefault();
-									var $this = $(this);
-									console.log($this);
-									$dlLocation = $this.attr('href');
-									console.log(document.cookie);
-									var surveyCheck = surveyCookie();
-									console.log('surveyCheck: '+surveyCheck);
-									
-									if (surveyCheck === true) {
-										//code
-										window.location=$dlLocation;
-									}else{
-										signUpSetUp();
-									}
-									
-								});
+						//$contentArea.find('.downloadButton').on('click.downloadWhole', 'a',function(e){
+						//			e.preventDefault();
+						//			var $this = $(this);
+						//			console.log($this);
+						//			$dlLocation = $this.attr('href');
+						//			console.log(document.cookie);
+						//			var surveyCheck = surveyCookie();
+						//			console.log('surveyCheck: '+surveyCheck);
+						//			
+						//			if (surveyCheck === true) {
+						//				//code
+						//				window.location=$dlLocation;
+						//			}else{
+						//				signUpSetUp();
+						//			}
+						//			
+						//		});
 					}
 				});
 			
@@ -192,88 +194,88 @@ $(function () {
 				modal.close();
 	}
 		
-	function signUpSetUp() {
-			//code
-			$.ajax({
-						url: 'form.php',
-						type: "GET",
-						dataType: "html",
-						success: function (data) {
-							var $newForm = $('<div>')
-							$newForm.html(data);
-							modal.open({content : $newForm});
-							//$('input[type="submit"]', '#oer_usage').on('click.sendInfo',function(e){
-							//	e.preventDefault();
-							//	$('#oer_usage').find('input[type="text"]').each(function(e){
-							//		console.log($(this).attr('name'),$(this).val().trim())
-							//		})
-							//	console.log(validateEmail($('#userEmail', '#oer_usage').val()));
-							//	if ($('#userName', '#oer_usage').val().trim() && $('#userPosition', '#oer_usage').val().trim() && validateEmail($('#userEmail', '#oer_usage').val().trim())) {
-							//		//code
-							//		
-							//		var serializedData = $('#oer_usage').serialize();
-							//		console.log(serializedData);
-							//		
-							//		$.ajax({
-							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
-							//            type: "post",
-							//            data: serializedData+"&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
-							//			success: function(data){
-							//				document.cookie = "survey=true";
-							//				closeModal(e);
-							//				window.location=$dlLocation;
-							//			}
-							//	   });
-							//	}else{
-							//		if ($('#userName', '#oer_usage').val()=='') {
-							//			$('#userName', '#oer_usage').addClass('giveanswer')
-							//		}else{
-							//			$('#userName', '#oer_usage').removeClass('giveanswer')
-							//		}
-							//		if ($('#userPosition', '#oer_usage').val()=='') {
-							//			$('#userPosition', '#oer_usage').addClass('giveanswer')
-							//		}else{
-							//			$('#userPosition', '#oer_usage').removeClass('giveanswer')
-							//		}
-							//		if (!validateEmail($('#userEmail', '#oer_usage').val()) || $('#userEmail', '#oer_usage').val()=='') {
-							//			$('#userEmail', '#oer_usage').addClass('giveanswer')
-							//		}else{
-							//			$('#userEmail', '#oer_usage').removeClass('giveanswer')
-							//		}
-							//	}
-							//	
-							//})
-							$('.signupButton', '#oer_usage').on('click.dontsendInfo','a',function(e){
-									e.preventDefault();
-									closeModal(e);
-									window.location=$dlLocation;
-							//		$.ajax({
-							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
-							//            type: "post",
-							//            data: "userName=directFullModuleDownloadMapping&userEmail=noneGiven&userPosition=noneGiven&userSurvey=no&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
-							//			success: function(data){
-							//				closeModal(e);
-							//				window.location=$dlLocation;
-							//			}
-							//	});
-									
-							});
-							
-//							$('input[type="checkbox"]', '#oer_usage').on('click.surveyAnswer',function(e){
-//								console.log($(this).is(':checked'));
-//								if ($(this).is(':checked'))
-//								{
-//                                    //code
-//									$('#userInfo').slideDown(550);
-//									$('input[type="submit"]', '#oer_usage').fadeIn(500);
-//                                }else{
-//									$('#userInfo').slideUp(550);
-//									$('input[type="submit"]', '#oer_usage').fadeOut(500);
-//								}
-//								})
-							
-						}
-			});
-			
-		}
+//	function signUpSetUp() {
+//			//code
+//			$.ajax({
+//						url: 'form.php',
+//						type: "GET",
+//						dataType: "html",
+//						success: function (data) {
+//							var $newForm = $('<div>')
+//							$newForm.html(data);
+//							modal.open({content : $newForm});
+//							//$('input[type="submit"]', '#oer_usage').on('click.sendInfo',function(e){
+//							//	e.preventDefault();
+//							//	$('#oer_usage').find('input[type="text"]').each(function(e){
+//							//		console.log($(this).attr('name'),$(this).val().trim())
+//							//		})
+//							//	console.log(validateEmail($('#userEmail', '#oer_usage').val()));
+//							//	if ($('#userName', '#oer_usage').val().trim() && $('#userPosition', '#oer_usage').val().trim() && validateEmail($('#userEmail', '#oer_usage').val().trim())) {
+//							//		//code
+//							//		
+//							//		var serializedData = $('#oer_usage').serialize();
+//							//		console.log(serializedData);
+//							//		
+//							//		$.ajax({
+//							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
+//							//            type: "post",
+//							//            data: serializedData+"&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
+//							//			success: function(data){
+//							//				document.cookie = "survey=true";
+//							//				closeModal(e);
+//							//				window.location=$dlLocation;
+//							//			}
+//							//	   });
+//							//	}else{
+//							//		if ($('#userName', '#oer_usage').val()=='') {
+//							//			$('#userName', '#oer_usage').addClass('giveanswer')
+//							//		}else{
+//							//			$('#userName', '#oer_usage').removeClass('giveanswer')
+//							//		}
+//							//		if ($('#userPosition', '#oer_usage').val()=='') {
+//							//			$('#userPosition', '#oer_usage').addClass('giveanswer')
+//							//		}else{
+//							//			$('#userPosition', '#oer_usage').removeClass('giveanswer')
+//							//		}
+//							//		if (!validateEmail($('#userEmail', '#oer_usage').val()) || $('#userEmail', '#oer_usage').val()=='') {
+//							//			$('#userEmail', '#oer_usage').addClass('giveanswer')
+//							//		}else{
+//							//			$('#userEmail', '#oer_usage').removeClass('giveanswer')
+//							//		}
+//							//	}
+//							//	
+//							//})
+//							$('.signupButton', '#oer_usage').on('click.dontsendInfo','a',function(e){
+//									e.preventDefault();
+//									closeModal(e);
+//									window.location=$dlLocation;
+//							//		$.ajax({
+//							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
+//							//            type: "post",
+//							//            data: "userName=directFullModuleDownloadMapping&userEmail=noneGiven&userPosition=noneGiven&userSurvey=no&userPage="+window.location.pathname+"&userPackage="+$currentTopic+" fullPackage&userIP="+JSON.stringify(ipinfo),
+//							//			success: function(data){
+//							//				closeModal(e);
+//							//				window.location=$dlLocation;
+//							//			}
+//							//	});
+//									
+//							});
+//							
+////							$('input[type="checkbox"]', '#oer_usage').on('click.surveyAnswer',function(e){
+////								console.log($(this).is(':checked'));
+////								if ($(this).is(':checked'))
+////								{
+////                                    //code
+////									$('#userInfo').slideDown(550);
+////									$('input[type="submit"]', '#oer_usage').fadeIn(500);
+////                                }else{
+////									$('#userInfo').slideUp(550);
+////									$('input[type="submit"]', '#oer_usage').fadeOut(500);
+////								}
+////								})
+//							
+//						}
+//			});
+//			
+//		}
 });

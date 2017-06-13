@@ -86,37 +86,39 @@ $(function () {
 				modal.close();
 		};
 	//function for getting the file size of the assets
-	function fileSize() {
-			$.ajax({
-						url: 'module_size.php',
-						type: "GET",
-						dataType: "JSON",
-						success: function (data) {
-							$fileSize = data;
-						}
-			})
-		}
-	fileSize();
+	//function fileSize() {
+	//		$.ajax({
+	//					url: 'module_size.php',
+	//					type: "GET",
+	//					dataType: "JSON",
+	//					success: function (data) {
+	//						$fileSize = data;
+	//					}
+	//		})
+	//	}
+	//fileSize();
 	//function for email validation
-	function validateEmail($email) {
-		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-		return emailReg.test( $email );
+	function validatehtml($htmlPage) {
+		var emailReg = /(BDK)\d+/;
+		var match = emailReg.exec($htmlPage);
+
+		return match[0]+'.html';
 	  }
 	//function for the getting the various cookie data used for the site
-	function surveyCookie(){
-		str = document.cookie.split('; ');
-		var result = {};
-		for (var i = 0; i < str.length; i++) {
-			var cur = str[i].split('=');
-			result[cur[0]] = cur[1];
-		}
-		if (result['survey']==='true') {
-            //code
-			return true;
-        }else{
-			return false;
-		}
-	}
+//	function surveyCookie(){
+//		str = document.cookie.split('; ');
+//		var result = {};
+//		for (var i = 0; i < str.length; i++) {
+//			var cur = str[i].split('=');
+//			result[cur[0]] = cur[1];
+//		}
+//		if (result['survey']==='true') {
+//            //code
+//			return true;
+//        }else{
+//			return false;
+//		}
+//	}
 	// setting up the clean-up of the displayed topic
 	function killBoxy($nextPlace){
 		//console.log("checking the kill");
@@ -146,7 +148,7 @@ $(function () {
 	$('.topicTitle', '.ready').on('click.mainList','a', function(e){
 		e.preventDefault();
 		$clickedTopic = $(this);
-		var $htmlPage=$(this).attr('href');
+		var $htmlPage=validatehtml($(this).attr('href'));
 		console.log($htmlPage, $activeTopic)
 		if ($htmlPage != $activeTopic) {
 			//code
@@ -161,31 +163,23 @@ $(function () {
 	});
 	
 	function buildInfo($placement) {
-		$activeTopic = $placement.attr('href');
+		$activeTopic = validatehtml($placement.attr('href'));
 		var $this = $placement;
 		if ($this.hasClass('current')!==true){
 				//console.log("starting the build");
-				var $location = $this.attr('href');
+				var $location = validatehtml($this.attr('href'));
+				//console.log($location);
 				var $parent = $this.parent().parent();
 				$parent.animate({ scrollTop: $parent.scrollTop() + $this.offset().top - $parent.offset().top }, { duration: 'slow', easing: 'swing'});
 				$('html,body').animate({ scrollTop: $parent.offset().top }, { duration: 1000, easing: 'swing'});
 				
 				var $topicID = $parent.find('.topicID').text().trim();
 				$currentTopic = $topicID ;
-				var $sizeInsert;
+				//var $sizeInsert;
 				//fileSize($topicID);
 				$this.addClass('current');
 				
-				jQuery.each($fileSize, function (k,v){
-					if (k==$topicID) {
-						//code
-						$sizeInsert = '<span class="filesize">('+v+')</span>';
-						if (v.match(/GB/g)) {
-							//code
-							$sizeInsert = '<span class="filesize sizeWarning">('+v+')</span>';
-						}
-					}
-				})
+				
 				$.ajax({
 						url: $location,
 						type: "get",
@@ -198,7 +192,7 @@ $(function () {
 							div.html(data);
 							// find the main div for the module
 							//console.log("adding the buttons");
-							var topicButtons = $('<div class="viewButton"><a href="'+$topicID+'.html" target="_BLANK">View Module Content</a></div></div><div class="downloadButton"><a href="module_zip.php?mod='+$topicID+'">Download Entire Module '+$sizeInsert+'</a></div><div class="seClear">');
+							var topicButtons = $('<div></div>');
 							//console.log("adding the topic info");
 							var content = div.find('div.main div.topicArea section.header div.topic_info').append(topicButtons).wrapInner('<div class="boxyContent"></div>');
 
@@ -209,23 +203,23 @@ $(function () {
 									killBoxy();
 								});
 							//console.log("starting the slide");
-							$interactionBox.find('.downloadButton').on('click.downloadWhole', 'a',function(e){
-									e.preventDefault();
-									var $this = $(this);
-									console.log($this);
-									$dlLocation = $this.attr('href');
-									console.log(document.cookie);
-									var surveyCheck = surveyCookie();
-									console.log('surveyCheck: '+surveyCheck);
-									
-									if (surveyCheck === true) {
-										//code
-										window.location=$dlLocation;
-									}else{
-										signUpSetUp();
-									}
-									
-								});
+							//$interactionBox.find('.downloadButton').on('click.downloadWhole', 'a',function(e){
+							//		e.preventDefault();
+							//		var $this = $(this);
+							//		console.log($this);
+							//		$dlLocation = $this.attr('href');
+							//		//console.log(document.cookie);
+							//		//var surveyCheck = surveyCookie();
+							//		//console.log('surveyCheck: '+surveyCheck);
+							//		//
+							//		//if (surveyCheck === true) {
+							//		//	//code
+							//		//	window.location=$dlLocation;
+							//		//}else{
+							//		//	signUpSetUp();
+							//		//}
+							//		
+							//	});
 							$interactionBox.appendTo($parent.find('.topic_details .topic_info_placement'));
 							$interactionBox.delay(30).slideDown(500);
 						}
@@ -234,16 +228,16 @@ $(function () {
 
 		};
 		
-		function signUpSetUp() {
-			//code
-			$.ajax({
-						url: 'form.php',
-						type: "GET",
-						dataType: "html",
-						success: function (data) {
-							var $newForm = $('<div>')
-							$newForm.html(data);
-							modal.open({content : $newForm});
+		//function signUpSetUp() {
+		//	//code
+		//	$.ajax({
+		//				url: 'form.php',
+		//				type: "GET",
+		//				dataType: "html",
+		//				success: function (data) {
+		//					var $newForm = $('<div>')
+		//					$newForm.html(data);
+		//					modal.open({content : $newForm});
 							//$('input[type="submit"]', '#oer_usage').on('click.sendInfo',function(e){
 							//	e.preventDefault();
 							//	closeModal(e);
@@ -286,10 +280,10 @@ $(function () {
 								//}
 								
 							//})
-							$('.signupButton', '#oer_usage').on('click.dontsendInfo','a',function(e){
-									e.preventDefault();
-									closeModal(e);
-									window.location=$dlLocation;
+							//$('.signupButton', '#oer_usage').on('click.dontsendInfo','a',function(e){
+							//		e.preventDefault();
+							//		closeModal(e);
+							//		window.location=$dlLocation;
 							//		$.ajax({
 							//            url: "https://script.google.com/macros/s/AKfycbybcUKgDseo6YkWHSvt2azZYoRxPmUrjARucYHUTJBXPTRjnLk/exec",
 							//            type: "post",
@@ -300,7 +294,7 @@ $(function () {
 							//			}
 							//	});
 									
-							});
+							//});
 							
 //							$('input[type="checkbox"]', '#oer_usage').on('click.surveyAnswer',function(e){
 //								console.log($(this).is(':checked'));
@@ -315,9 +309,9 @@ $(function () {
 //								}
 //								})
 							
-						}
-			});
+				//		}
+			//});
 			
-		}
+		
 
 });
